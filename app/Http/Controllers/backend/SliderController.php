@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Sliders;
 Use App\Models\Blogs;
+use App\Models\Services;
 use Illuminate\Support\Str;
 
 class SliderController extends Controller
@@ -13,10 +14,12 @@ class SliderController extends Controller
     public function index(){
         $blogs=Blogs::get();
         $sliders=Sliders::get();
+        $services=Services::get();
         // compact('sliders')
         return view('backend.sliders.index', [
             'sliders'=>$sliders,
             'blogs'=>$blogs,
+            'services'=>$services
         ]);
     }
     public function tambah()
@@ -74,8 +77,6 @@ class SliderController extends Controller
         $data = [
             'title' => $request->title,
             'description' => $request->description,
-            'slug' => Str::slug($request->title),
-            'created_by' => 0,
             'created_at' =>date('Y-m-d h:i:s')
         ];
     
@@ -90,7 +91,7 @@ class SliderController extends Controller
     
         Sliders::where('id',$id)->update($data);
     
-        return redirect()->route('backend.sliders');
+        return redirect()->route('backend.slider');
     }
 }
 
